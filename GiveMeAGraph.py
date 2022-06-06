@@ -1,5 +1,5 @@
-# Generate a graph in xlsx format.
-# The graph has n vertices and there exits a maximal size of c clique in the graph.
+# Generate a graph has n vertices and there exits a maximal size of c clique in the graph.
+# The output is an adjacency matrix saved in xlsx.
 
 import xlsxwriter
 import random
@@ -38,16 +38,19 @@ def GiveMeAGraph(n, c):
     writeToFile(n, c, edges)
 
 def writeToFile(n, c, edges):
-    workbook = xlsxwriter.Workbook(str(n)+'_'+str(c)+'.xlsx')
+    workbook = xlsxwriter.Workbook('n'+str(n)+'c'+str(c)+'.xlsx')
     worksheet = workbook.add_worksheet()
-    
-    # write data
-    row = 0
+
+    # write a n*n matrix with 0s
+    for row in range(n):
+        for col in range(n):
+            worksheet.write(row, col, 0)
+
+    # write 1s to the corresponding entries for edges
     for e in edges:
-        worksheet.write(row, 0, e[0])
-        worksheet.write(row, 1, e[1]) 
-        row += 1
+        worksheet.write(e[0], e[1], 1)
+        worksheet.write(e[1], e[0], 1)
     workbook.close()
 
 
-GiveMeAGraph(5,3)
+GiveMeAGraph(20,5)
