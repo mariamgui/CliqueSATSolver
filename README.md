@@ -8,6 +8,8 @@ A clique in a graph is a subset of vertices, all adjacent to each other, also ca
 Make sure to run 
 <code> export PYTHONPATH=$HOME/.smt_solvers/python_bindings </code>
 
-Then install pysmt with the z3 solver
+Then install pysmt with the z3 solver.
 
 <code> pysmt-install --z3 </code>
+
+The choice of solver is up to you. There exists many other solvers as well.
