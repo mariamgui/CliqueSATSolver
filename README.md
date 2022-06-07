@@ -2,7 +2,7 @@
 This provides a SAT solver the graph clique problem which is an NP-hard problem. 
 
 ### What is a clique?
-A clique in a graph is a subset of vertices, all adjacent to each other, also called complete subgraphs in a graph. 
+A clique in a graph is a subset of vertices, all adjacent to each other, also called complete subgraphs in an undirected graph. 
 
 ### What you need to run this code? 
 Make sure to run 
