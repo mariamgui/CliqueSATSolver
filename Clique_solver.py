@@ -1,37 +1,45 @@
 from multiprocessing.sharedctypes import SynchronizedBase
 import symtable
 from xmlrpc.client import boolean
-
 from pysmt.shortcuts import Symbol, And, Not, Or, is_sat
 import openpyxl
 import numpy as np
 import time
 
-def Clique_solver(filePaths, c):
+def Clique_solver(Query):
     # number of vertices in the graph
     n = 0
     matrix = []
-    for filePath in filePaths:
-        start_time = time.time()
+    start_time = time.time()
+    wookbook = openpyxl.load_workbook(Query[0])
+    worksheet = wookbook.active
 
-        wookbook = openpyxl.load_workbook(filePath)
-        worksheet = wookbook.active
-
-        # get the number of vertices
-        n = worksheet.max_row
-        # initlize a n*n matrix with 0s
-        matrix = np.zeros((n,n))
-        row_m = 0
+    # get the number of vertices
+    n = worksheet.max_row
+    # initlize a n*n matrix with 0s
+    matrix = np.zeros((n,n))
+    row_m = 0
+    col_m = 0
+    # reading data into the matrix
+    for i in range(1, worksheet.max_row+1):
+        for j in range(0, worksheet.max_column):
+            matrix[row_m][col_m] = worksheet[i][j].value
+            col_m+=1
+        row_m += 1
         col_m = 0
-        # reading data into the matrix
-        for i in range(1, worksheet.max_row+1):
-            for j in range(0, worksheet.max_column):
-                matrix[row_m][col_m] = worksheet[i][j].value
-                col_m+=1
-            row_m += 1
-            col_m = 0
 
-    # building boolean formula
+    c = Query[1]
+    if n < c:
+        end_time = time.time()
+        time_elapsed = (end_time - start_time)
+        return (False, time_elapsed)
+
+    if c == 0 or c == 1:
+        end_time = time.time()
+        time_elapsed = (end_time - start_time)
+        return (True, time_elapsed)
+
+    # building boolean formyla
     boolean_formula = Symbol('DummyVar')
     symbol_table = []
     # create 1A, 2A, 3A... 1B, 2B, 3B......
@@ -76,13 +84,8 @@ def Clique_solver(filePaths, c):
                             boolean_formula = And(boolean_formula, Or(Not(k), Not(m)))
                             #print(Or(Not(k), Not(m)))
                 #print('-----')
-    print(is_sat(boolean_formula))
+    result = is_sat(boolean_formula)
 
     end_time = time.time()
     time_elapsed = (end_time - start_time)
-    print('Running ', filePath, ' takes ', time_elapsed, ' seconds')
-
-# define testing file paths
-filePaths = ["n20c5.xlsx"]
-
-Clique_solver(filePaths, 6)
+    return (result, time_elapsed)
