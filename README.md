@@ -12,4 +12,4 @@ Then install pysmt with the z3 solver.
 
 <code> pysmt-install --z3 </code>
 
-The choice of solver is up to you. There exists many other solvers as well.
+The choice of the solver is up to you. There exists many other solvers as well.
