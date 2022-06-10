@@ -12,4 +12,7 @@ Then install pysmt with the z3 solver.
 
 <code> pysmt-install --z3 </code>
 
+To use clique solver on one data input pleas run Clique_solver_individual.py
+The clique solver Clique_solver.y that has query as input is used to generate the plos (Make_plots.py)
+
 There exists many other solvers as well, and the choice of the solver is up to you. 
